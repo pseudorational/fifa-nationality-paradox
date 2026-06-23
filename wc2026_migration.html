@@ -9,7 +9,6 @@
          background: #fff; color: #111; }
   @media (prefers-color-scheme: dark) {
     body { background: #0d1117; color: #e6edf3; }
-    .sub { color: #8b949e; }
     .footer { color: #6e7681; }
   }
   .hint   { font-size: 13px; text-align: center; margin: 0 0 10px; color: #555; }
@@ -24,15 +23,8 @@
      style="width:100%;display:block"></svg>
 <p class="footer">213 (22.8%) of 933 players born outside their represented nation · Only flows of 2 or more players shown · Data Source: Football API (https://www.api-football.com) and Wikipedia</p>
 <script>
-const FLOWS=[{"b": "Netherlands", "r": "Curaçao", "n": 19}, {"b": "France", "r": "Algeria", "n": 11}, {"b": "France", "r": "Haiti", "n": 10}, {"b": "France", "r": "DR Congo", "n": 8}, {"b": "France", "r": "Tunisia", "n": 6}, {"b": "France", "r": "Ivory Coast", "n": 6}, {"b": "Spain", "r": "Morocco", "n": 6}, {"b": "France", "r": "Morocco", "n": 5}, {"b": "France", "r": "Senegal", "n": 5}, {"b": "England", "r": "Scotland", "n": 4}, {"b": "Netherlands", "r": "Cape Verde", "n": 4}, {"b": "Germany", "r": "Croatia", "n": 4}, {"b": "Belgium", "r": "DR Congo", "n": 3}, {"b": "France", "r": "Cape Verde", "n": 3}, {"b": "Portugal", "r": "Cape Verde", "n": 3}, {"b": "Sweden", "r": "Bosnia and Herzegovina", "n": 3}, {"b": "Bosnia and Herzegovina", "r": "Croatia", "n": 3}, {"b": "England", "r": "Canada", "n": 3}, {"b": "England", "r": "Ghana", "n": 3}, {"b": "France", "r": "Ghana", "n": 3}, {"b": "Democratic Republic of the Congo", "r": "DR Congo", "n": 3}, {"b": "Belgium", "r": "Morocco", "n": 2}, {"b": "Austria", "r": "Bosnia and Herzegovina", "n": 2}, {"b": "Argentina", "r": "Paraguay", "n": 2}, {"b": "England", "r": "Norway", "n": 2}, {"b": "England", "r": "DR Congo", "n": 2}, {"b": "Canada", "r": "Haiti", "n": 2}, {"b": "England", "r": "New Zealand", "n": 2}, {"b": "Germany", "r": "Iraq", "n": 2}, {"b": "Germany", "r": "Tunisia", "n": 2}, {"b": "Germany", "r": "Turkey", "n": 2}, {"b": "Germany", "r": "Bosnia and Herzegovina", "n": 2}, {"b": "Netherlands", "r": "Turkey", "n": 2}, {"b": "Slovenia", "r": "Bosnia and Herzegovina", "n": 2}, {"b": "Sweden", "r": "Iraq", "n": 2}, {"b": "United States", "r": "Haiti", "n": 2}, {"b": "United States", "r": "Mexico", "n": 2}];
-
-const COLS={
-  "France":"#378ADD","Netherlands":"#1D9E75","England":"#D4537E",
-  "Germany":"#BA7517","Spain":"#7F77DD","Belgium":"#639922",
-  "Sweden":"#E24B4A","United States":"#D85A30","Bosnia & Herz.":"#888780",
-  "Portugal":"#185FA5","DRC":"#534AB7","Canada":"#85B7EB",
-  "Austria":"#ED93B1","Argentina":"#F0997B","Slovenia":"#EF9F27"
-};
+const FLOWS=[{"b": "Netherlands", "r": "Curaçao", "n": 19}, {"b": "France", "r": "Algeria", "n": 11}, {"b": "France", "r": "Haiti", "n": 10}, {"b": "France", "r": "DR Congo", "n": 8}, {"b": "France", "r": "Tunisia", "n": 6}, {"b": "France", "r": "Ivory Coast", "n": 6}, {"b": "Spain", "r": "Morocco", "n": 6}, {"b": "France", "r": "Morocco", "n": 5}, {"b": "France", "r": "Senegal", "n": 5}, {"b": "England", "r": "Scotland", "n": 4}, {"b": "Netherlands", "r": "Cape Verde", "n": 4}, {"b": "Germany", "r": "Croatia", "n": 4}, {"b": "Belgium", "r": "DR Congo", "n": 3}, {"b": "France", "r": "Cape Verde", "n": 3}, {"b": "Portugal", "r": "Cape Verde", "n": 3}, {"b": "Sweden", "r": "Bosnia & Herz.", "n": 3}, {"b": "Bosnia & Herz.", "r": "Croatia", "n": 3}, {"b": "England", "r": "Canada", "n": 3}, {"b": "England", "r": "Ghana", "n": 3}, {"b": "France", "r": "Ghana", "n": 3}, {"b": "DRC", "r": "DR Congo", "n": 3}, {"b": "Belgium", "r": "Morocco", "n": 2}, {"b": "Austria", "r": "Bosnia & Herz.", "n": 2}, {"b": "Argentina", "r": "Paraguay", "n": 2}, {"b": "England", "r": "Norway", "n": 2}, {"b": "England", "r": "DR Congo", "n": 2}, {"b": "Canada", "r": "Haiti", "n": 2}, {"b": "England", "r": "New Zealand", "n": 2}, {"b": "Germany", "r": "Iraq", "n": 2}, {"b": "Germany", "r": "Tunisia", "n": 2}, {"b": "Germany", "r": "Turkey", "n": 2}, {"b": "Germany", "r": "Bosnia & Herz.", "n": 2}, {"b": "Netherlands", "r": "Turkey", "n": 2}, {"b": "Slovenia", "r": "Bosnia & Herz.", "n": 2}, {"b": "Sweden", "r": "Iraq", "n": 2}, {"b": "United States", "r": "Haiti", "n": 2}, {"b": "United States", "r": "Mexico", "n": 2}];
+const COLS={"France": "#378ADD", "Netherlands": "#1D9E75", "England": "#D4537E", "Germany": "#BA7517", "Spain": "#7F77DD", "Belgium": "#639922", "Sweden": "#E24B4A", "United States": "#D85A30", "Bosnia & Herz.": "#888780", "Portugal": "#185FA5", "DRC": "#534AB7", "Canada": "#85B7EB", "Austria": "#ED93B1", "Argentina": "#F0997B", "Slovenia": "#EF9F27"};
 
 const LX=290,RX=710,CX=500,TY=90,BY=905;
 const TT={},BT={};

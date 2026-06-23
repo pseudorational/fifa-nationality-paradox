@@ -20,9 +20,11 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 import pandas as pd
+from chart_utils import make_png
 
 MIN_PLAYERS = 2
 OUTPUT_HTML = "wc2026_citizenship.html"
+OUTPUT_PNG  = "wc2026_citizenship.png"
 
 # Wikidata formal names → team short-names used in the representing column
 NORM = {
@@ -267,4 +269,14 @@ html = (
 with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
     f.write(html)
 
-print(f"\nSaved: {OUTPUT_HTML}")
+print(f"Saved: {OUTPUT_HTML}")
+
+# ── 3. Static PNG for LinkedIn / Substack ────────────────────────────────────
+
+make_png(
+    flows_df, "cit_disp", "rep_disp", cols, OUTPUT_PNG,
+    title      = "FIFA World Cup 2026 — Dual Nationality",
+    right_hdr  = "CITIZENSHIP",
+    left_sub   = "dual-nationality",
+    min_players= MIN_PLAYERS,
+)

@@ -1,11 +1,12 @@
 """
-Generates wc2026_migration.html — the interactive bipartite bubble chart.
+Generates wc2026_migration.html and wc2026_migration.png.
 
 Reads wc2026_players.csv, computes flows via pandas, and injects the result
 as JSON into an HTML template. No manual data entry required.
 
 Run: python wc2026_migration_html.py
 Output: wc2026_migration.html  (open in any browser)
+        wc2026_migration.png   (static, for LinkedIn / Substack)
 """
 
 import json
@@ -18,9 +19,36 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 import pandas as pd
+from chart_utils import make_png
 
 MIN_PLAYERS = 2
 OUTPUT_HTML = "wc2026_migration.html"
+OUTPUT_PNG  = "wc2026_migration.png"
+
+# Long Wikidata names → display abbreviations
+ABBR = {
+    "Bosnia and Herzegovina":         "Bosnia & Herz.",
+    "Democratic Republic of the Congo": "DRC",
+}
+
+# Birth-country color palette (right-side bubbles and curves)
+COLS = {
+    "France":        "#378ADD",
+    "Netherlands":   "#1D9E75",
+    "England":       "#D4537E",
+    "Germany":       "#BA7517",
+    "Spain":         "#7F77DD",
+    "Belgium":       "#639922",
+    "Sweden":        "#E24B4A",
+    "United States": "#D85A30",
+    "Bosnia & Herz.":"#888780",
+    "Portugal":      "#185FA5",
+    "DRC":           "#534AB7",
+    "Canada":        "#85B7EB",
+    "Austria":       "#ED93B1",
+    "Argentina":     "#F0997B",
+    "Slovenia":      "#EF9F27",
+}
 
 # ── 1. Load & compute flows ───────────────────────────────────────────────────
 
@@ -29,11 +57,14 @@ complete = df[df["data_complete"] == True].copy()
 complete = complete[complete["birth_country"].notna() &
                    (complete["birth_country"].str.strip() != "")]
 
-cross = complete[complete["birth_country"] != complete["representing"]]
+complete["birth_disp"] = complete["birth_country"].map(lambda c: ABBR.get(c, c))
+complete["rep_disp"]   = complete["representing"].map(lambda c: ABBR.get(c, c))
+
+cross = complete[complete["birth_disp"] != complete["rep_disp"]]
 
 flows_df = (
     cross
-    .groupby(["birth_country", "representing"])
+    .groupby(["birth_disp", "rep_disp"])
     .size()
     .reset_index(name="n")
     .query("n >= @MIN_PLAYERS")
@@ -41,21 +72,21 @@ flows_df = (
 )
 
 flows = [
-    {"b": row.birth_country, "r": row.representing, "n": int(row.n)}
+    {"b": row.birth_disp, "r": row.rep_disp, "n": int(row.n)}
     for row in flows_df.itertuples()
 ]
 
-n_cross   = len(cross)
+n_cross    = len(cross)
 n_complete = len(complete)
-n_cross_pct = (n_cross/n_complete)*100
-n_flows   = len(flows)
-n_covered = int(flows_df["n"].sum())
+n_cross_pct = (n_cross / n_complete) * 100
+n_flows    = len(flows)
+n_covered  = int(flows_df["n"].sum())
 
-print(f"Players with complete data : {n_complete}")
-print(f"Born outside represented nation : {n_cross} ({100*n_cross/n_complete:.0f}%)")
-print("Flows shown (>= {MIN_PLAYERS} players): {n_flows}  covering {n_covered} players")
+print(f"Players with complete data          : {n_complete}")
+print(f"Born outside represented nation     : {n_cross} ({n_cross_pct:.0f}%)")
+print(f"Flows shown (>= {MIN_PLAYERS} players)         : {n_flows}  covering {n_covered} players")
 
-# ── 2. HTML template — __FLOWS__ is the only placeholder ─────────────────────
+# ── 2. HTML template ──────────────────────────────────────────────────────────
 
 TEMPLATE = """\
 <!DOCTYPE html>
@@ -69,7 +100,6 @@ TEMPLATE = """\
          background: #fff; color: #111; }
   @media (prefers-color-scheme: dark) {
     body { background: #0d1117; color: #e6edf3; }
-    .sub { color: #8b949e; }
     .footer { color: #6e7681; }
   }
   .hint   { font-size: 13px; text-align: center; margin: 0 0 10px; color: #555; }
@@ -85,14 +115,7 @@ TEMPLATE = """\
 <p class="footer">__FOOTER__</p>
 <script>
 const FLOWS=__FLOWS__;
-
-const COLS={
-  "France":"#378ADD","Netherlands":"#1D9E75","England":"#D4537E",
-  "Germany":"#BA7517","Spain":"#7F77DD","Belgium":"#639922",
-  "Sweden":"#E24B4A","United States":"#D85A30","Bosnia & Herz.":"#888780",
-  "Portugal":"#185FA5","DRC":"#534AB7","Canada":"#85B7EB",
-  "Austria":"#ED93B1","Argentina":"#F0997B","Slovenia":"#EF9F27"
-};
+const COLS=__COLS__;
 
 const LX=290,RX=710,CX=500,TY=90,BY=905;
 const TT={},BT={};
@@ -203,11 +226,22 @@ footer = (
 
 html = (
     TEMPLATE
-    .replace("__FLOWS__", json.dumps(flows, ensure_ascii=False))
+    .replace("__FLOWS__",  json.dumps(flows, ensure_ascii=False))
+    .replace("__COLS__",   json.dumps(COLS,  ensure_ascii=False))
     .replace("__FOOTER__", footer)
 )
 
 with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
     f.write(html)
 
-print(f"\nSaved: {OUTPUT_HTML}")
+print(f"Saved: {OUTPUT_HTML}")
+
+# ── 3. Static PNG for LinkedIn / Substack ────────────────────────────────────
+
+make_png(
+    flows_df, "birth_disp", "rep_disp", COLS, OUTPUT_PNG,
+    title      = "FIFA World Cup 2026 — Crossing Borders",
+    right_hdr  = "BORN IN",
+    left_sub   = "foreign-born",
+    min_players= MIN_PLAYERS,
+)
