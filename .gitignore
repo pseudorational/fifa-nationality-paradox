@@ -38,3 +38,6 @@ venv.bak/
 *.njsproj
 *.sln
 *.sw?
+
+# Raw draft notes
+article.txt
