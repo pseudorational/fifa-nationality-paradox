@@ -98,10 +98,7 @@ TEMPLATE = """\
 <style>
   body { font-family: system-ui, sans-serif; margin: 0; padding: 20px;
          background: #fff; color: #111; }
-  @media (prefers-color-scheme: dark) {
-    body { background: #0d1117; color: #e6edf3; }
-    .footer { color: #6e7681; }
-  }
+  svg text { fill: currentColor; }
   .hint   { font-size: 13px; text-align: center; margin: 0 0 10px; color: #555; }
   .footer { font-size: 11px; text-align: center; margin: 6px 0 0; color: #888; }
   .fp,.nb,.nr,.nl { transition: opacity .22s ease; }
