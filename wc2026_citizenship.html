@@ -18,7 +18,7 @@
 <p class="hint">Click any bubble to highlight its connections · click again to reset</p>
 <svg id="fv" viewBox="0 0 1000 960" xmlns="http://www.w3.org/2000/svg"
      style="width:100%;display:block"></svg>
-<p class="footer">271 (29.0%) of 933 players hold citizenship outside their represented nation · Only flows of 2 or more players shown · Data Source: Football API (https://www.api-football.com) and Wikipedia</p>
+<p class="footer">283 (or 30%) are dual citizens or meet FIFA requirements to play for another country· Only flows of 2 or more players shown · Data Source: Football API (https://www.api-football.com) and Wikipedia</p>
 <script>
 const FLOWS=[{"b": "United Kingdom", "r": "Scotland", "n": 21}, {"b": "United Kingdom", "r": "England", "n": 20}, {"b": "Netherlands", "r": "Curaçao", "n": 19}, {"b": "France", "r": "Haiti", "n": 11}, {"b": "France", "r": "Ivory Coast", "n": 9}, {"b": "France", "r": "Algeria", "n": 8}, {"b": "France", "r": "DR Congo", "n": 8}, {"b": "France", "r": "Tunisia", "n": 6}, {"b": "France", "r": "Morocco", "n": 6}, {"b": "Spain", "r": "Morocco", "n": 5}, {"b": "France", "r": "Senegal", "n": 5}, {"b": "Portugal", "r": "Cape Verde", "n": 5}, {"b": "Sweden", "r": "Iraq", "n": 4}, {"b": "Netherlands", "r": "Cape Verde", "n": 3}, {"b": "Belgium", "r": "DR Congo", "n": 3}, {"b": "Croatia", "r": "Bosnia & Herz.", "n": 3}, {"b": "United Kingdom", "r": "Ghana", "n": 3}, {"b": "United Kingdom", "r": "Canada", "n": 3}, {"b": "Sweden", "r": "Bosnia & Herz.", "n": 3}, {"b": "United States", "r": "Haiti", "n": 3}, {"b": "France", "r": "Cape Verde", "n": 3}, {"b": "Italy", "r": "Argentina", "n": 3}, {"b": "Italy", "r": "Australia", "n": 3}, {"b": "France", "r": "Ghana", "n": 3}, {"b": "Brazil", "r": "Qatar", "n": 2}, {"b": "Canada", "r": "Haiti", "n": 2}, {"b": "Belgium", "r": "Algeria", "n": 2}, {"b": "Belgium", "r": "Morocco", "n": 2}, {"b": "Argentina", "r": "Paraguay", "n": 2}, {"b": "Germany", "r": "Bosnia & Herz.", "n": 2}, {"b": "Germany", "r": "Croatia", "n": 2}, {"b": "Germany", "r": "Tunisia", "n": 2}, {"b": "Netherlands", "r": "Turkey", "n": 2}, {"b": "Spain", "r": "Uruguay", "n": 2}, {"b": "Spain", "r": "Argentina", "n": 2}, {"b": "Spain", "r": "Brazil", "n": 2}, {"b": "Slovenia", "r": "Bosnia & Herz.", "n": 2}, {"b": "Spain", "r": "Colombia", "n": 2}, {"b": "United Kingdom", "r": "DR Congo", "n": 2}, {"b": "United States", "r": "Mexico", "n": 2}];
 const COLS={"France": "#378ADD", "United Kingdom": "#D4537E", "Netherlands": "#1D9E75", "Spain": "#7F77DD", "Sweden": "#E24B4A", "Belgium": "#639922", "Germany": "#BA7517", "Italy": "#888780", "Portugal": "#185FA5", "United States": "#D85A30", "Croatia": "#534AB7", "Canada": "#85B7EB", "Brazil": "#ED93B1", "Argentina": "#F0997B", "Slovenia": "#EF9F27"};
@@ -64,7 +64,7 @@ function mkNodes(arr,x,side,tot,maxV){
     if(y==null)return;
     const r=bR(tot[c],maxV),col=side==="r"?(COLS[c]||"#888"):"#378ADD";
     const ng=mk("g",{"data-c":c,"data-s":side,class:"ng"});
-    ng.appendChild(mk("circle",{cx:x,cy:y,r:r+7,fill:"none",stroke:"white",
+    ng.appendChild(mk("circle",{cx:x,cy:y,r:r+7,fill:"none",stroke:"#1e293b",
       "stroke-width":2.5,class:"nr"},{opacity:"0"}));
     ng.appendChild(mk("circle",{cx:x,cy:y,r,fill:col,
       stroke:"rgba(255,255,255,.3)","stroke-width":1.5,class:"nb"},{opacity:".92"}));

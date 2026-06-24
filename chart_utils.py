@@ -7,7 +7,7 @@ Output sized for LinkedIn / Substack: ~1920 px wide at 120 DPI.
 
 
 def make_png(flows_df, src_col, rep_col, src_colors, out,
-             title, right_hdr, left_sub, min_players=2):
+             title, right_hdr, left_sub, min_players=2, footer=None):
     """
     Draw a bipartite bubble-flow chart and save it as a PNG.
 
@@ -33,10 +33,11 @@ def make_png(flows_df, src_col, rep_col, src_colors, out,
         print("matplotlib not installed — skipping PNG")
         return
 
-    BG   = "#0d1117"
-    BLUE = "#3b82f6"
-    GOLD = "#f59e0b"
-    DIM  = "#94a3b8"
+    BG   = "#f8fafc"
+    BLUE = "#2563eb"
+    GOLD = "#d97706"
+    DIM  = "#64748b"
+    TEXT = "#1e293b"
 
     st = flows_df.groupby(src_col)["n"].sum().sort_values(ascending=False)
     rt = flows_df.groupby(rep_col)["n"].sum().sort_values(ascending=False)
@@ -44,7 +45,7 @@ def make_png(flows_df, src_col, rep_col, src_colors, out,
     rc = st.index.tolist()
 
     n_rows = max(len(lc), len(rc))
-    fig_h  = max(14, n_rows * 0.78 + 1.5)
+    fig_h  = max(11, n_rows * 0.60 + 1.5)
     fig, ax = plt.subplots(figsize=(16, fig_h))
     fig.patch.set_facecolor(BG)
     ax.set_facecolor(BG)
@@ -87,11 +88,11 @@ def make_png(flows_df, src_col, rep_col, src_colors, out,
     for c in lc:
         y  = ly[c]
         sz = bsz(rt[c], rt.max())
-        ax.scatter(LX, y, s=sz, color=BLUE, alpha=0.92,
-                   linewidths=1.2, edgecolors="#93c5fd", zorder=5)
+        ax.scatter(LX, y, s=sz, color=BLUE, alpha=0.85,
+                   linewidths=1.2, edgecolors="#1d4ed8", zorder=5)
         ax.text(LX - 0.022, y + 0.008, c,
-                ha="right", va="center", fontsize=24,
-                color="white", fontweight="bold")
+                ha="right", va="center", fontsize=16,
+                color=TEXT, fontweight="bold")
         ax.text(LX - 0.022, y - 0.016, f"{int(rt[c])} {left_sub}",
                 ha="right", va="center", fontsize=8, color=DIM)
 
@@ -99,11 +100,11 @@ def make_png(flows_df, src_col, rep_col, src_colors, out,
         y   = ry[c]
         sz  = bsz(st[c], st.max())
         col = src_colors.get(c, "#888")
-        ax.scatter(RX, y, s=sz, color=col, alpha=0.92,
-                   linewidths=1.2, edgecolors="white", zorder=5)
+        ax.scatter(RX, y, s=sz, color=col, alpha=0.85,
+                   linewidths=1.2, edgecolors="#cbd5e1", zorder=5)
         ax.text(RX + 0.022, y + 0.008, c,
-                ha="left", va="center", fontsize=24,
-                color="white", fontweight="bold")
+                ha="left", va="center", fontsize=16,
+                color=TEXT, fontweight="bold")
         ax.text(RX + 0.022, y - 0.016, f"{int(st[c])} players",
                 ha="left", va="center", fontsize=8, color=DIM)
 
@@ -113,11 +114,11 @@ def make_png(flows_df, src_col, rep_col, src_colors, out,
         ax.plot([x_ - 0.12, x_ + 0.12], [0.970, 0.970],
                 color=col_, linewidth=1.5, alpha=0.5)
 
-    ax.axvline(0.5, color="#1e293b", linewidth=1.2,
+    ax.axvline(0.5, color="#cbd5e1", linewidth=1.2,
                linestyle="--", alpha=0.8, zorder=1)
 
-    ax.text(0.5, -0.044,
-            f"Source: Wikipedia + Wikidata  ·  flows ≥ {min_players} players shown",
+    footer_text = footer if footer else f"Source: Wikipedia + Wikidata  ·  flows ≥ {min_players} players shown"
+    ax.text(0.5, -0.044, footer_text,
             ha="center", fontsize=8, color="#64748b")
 
     plt.tight_layout(pad=0.3)

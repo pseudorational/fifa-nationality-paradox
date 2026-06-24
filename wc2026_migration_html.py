@@ -155,7 +155,7 @@ function mkNodes(arr,x,side,tot,maxV){
     if(y==null)return;
     const r=bR(tot[c],maxV),col=side==="r"?(COLS[c]||"#888"):"#378ADD";
     const ng=mk("g",{"data-c":c,"data-s":side,class:"ng"});
-    ng.appendChild(mk("circle",{cx:x,cy:y,r:r+7,fill:"none",stroke:"white",
+    ng.appendChild(mk("circle",{cx:x,cy:y,r:r+7,fill:"none",stroke:"#1e293b",
       "stroke-width":2.5,class:"nr"},{opacity:"0"}));
     ng.appendChild(mk("circle",{cx:x,cy:y,r,fill:col,
       stroke:"rgba(255,255,255,.3)","stroke-width":1.5,class:"nb"},{opacity:".92"}));
@@ -217,7 +217,7 @@ sv.addEventListener("click",ra);
 """
 
 footer = (
-    f"{n_cross} ({n_cross_pct:.1f}%) of {n_complete} players born outside their represented nation "
+    f"213 (or 23%) are playing for a country different from their birth country "
     f"· Only flows of 2 or more players shown · Data Source: Football API (https://www.api-football.com) and Wikipedia"
 )
 
@@ -241,4 +241,5 @@ make_png(
     right_hdr  = "BORN IN",
     left_sub   = "foreign-born",
     min_players= MIN_PLAYERS,
+    footer     = footer,
 )
