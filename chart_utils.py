@@ -44,7 +44,7 @@ def make_png(flows_df, src_col, rep_col, src_colors, out,
     rc = st.index.tolist()
 
     n_rows = max(len(lc), len(rc))
-    fig_h  = max(11, n_rows * 0.60 + 1.5)
+    fig_h  = max(14, n_rows * 0.78 + 1.5)
     fig, ax = plt.subplots(figsize=(16, fig_h))
     fig.patch.set_facecolor(BG)
     ax.set_facecolor(BG)
