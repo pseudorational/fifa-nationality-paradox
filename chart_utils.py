@@ -90,10 +90,10 @@ def make_png(flows_df, src_col, rep_col, src_colors, out,
         ax.scatter(LX, y, s=sz, color=BLUE, alpha=0.92,
                    linewidths=1.2, edgecolors="#93c5fd", zorder=5)
         ax.text(LX - 0.022, y + 0.008, c,
-                ha="right", va="center", fontsize=11,
+                ha="right", va="center", fontsize=24,
                 color="white", fontweight="bold")
         ax.text(LX - 0.022, y - 0.016, f"{int(rt[c])} {left_sub}",
-                ha="right", va="center", fontsize=8.5, color=DIM)
+                ha="right", va="center", fontsize=8, color=DIM)
 
     for c in rc:
         y   = ry[c]
@@ -102,10 +102,10 @@ def make_png(flows_df, src_col, rep_col, src_colors, out,
         ax.scatter(RX, y, s=sz, color=col, alpha=0.92,
                    linewidths=1.2, edgecolors="white", zorder=5)
         ax.text(RX + 0.022, y + 0.008, c,
-                ha="left", va="center", fontsize=11,
+                ha="left", va="center", fontsize=24,
                 color="white", fontweight="bold")
         ax.text(RX + 0.022, y - 0.016, f"{int(st[c])} players",
-                ha="left", va="center", fontsize=8.5, color=DIM)
+                ha="left", va="center", fontsize=8, color=DIM)
 
     for x_, lbl_, col_ in [(LX, "REPRESENTING", BLUE), (RX, right_hdr, GOLD)]:
         ax.text(x_, 0.980, lbl_, ha="center", fontsize=13,
